@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memorymate-frontend
+  labels:
+    app: memorymate
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memorymate
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: memorymate
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: image-registry.openshift-image-registry.svc:5000/memorymate/frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memorymate-frontend
+  labels:
+    app: memorymate
+    component: frontend
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  selector:
+    app: memorymate
+    component: frontend
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: memorymate
+  labels:
+    app: memorymate
+    component: frontend
+spec:
+  to:
+    kind: Service
+    name: memorymate-frontend
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

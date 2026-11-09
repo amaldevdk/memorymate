@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-cream: #FFFDF9;
+    --card-cream: #FFFFFF;
+    --soft-blue: #E0F2FE;
+    --primary-blue: #0284C7;
+    --primary-blue-dark: #0369A1;
+    --light-green: #DCFCE7;
+    --primary-green: #16A34A;
+    --alert-red: #EF4444;
+    --text-dark: #1E293B;
+  }
+
+  body {
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    background-color: #FFFDF9;
+    color: #1E293B;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', 'Nunito', sans-serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Accessibility Font Scale Classes */
+.font-scale-normal {
+  font-size: 100%;
+}
+
+.font-scale-large {
+  font-size: 115%;
+}
+
+.font-scale-xlarge {
+  font-size: 130%;
+}
+
+/* High Contrast Mode for Elderly Low-Vision Users */
+.high-contrast-mode {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+.high-contrast-mode .bg-white,
+.high-contrast-mode .bg-\[\#FFFDF9\],
+.high-contrast-mode .bg-\[\#FEF9EE\] {
+  background-color: #121212 !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+.high-contrast-mode .text-slate-600,
+.high-contrast-mode .text-slate-500,
+.high-contrast-mode .text-gray-600 {
+  color: #E2E8F0 !important;
+}
+
+.high-contrast-mode button,
+.high-contrast-mode .card-touch {
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Tactile Big Touch Targets */
+.touch-target-elderly {
+  min-height: 54px;
+  min-width: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Smooth Pulse Animation for SOS and Reminders */
+@keyframes warm-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+  }
+}
+
+.animate-warm-pulse {
+  animation: warm-pulse 2s infinite ease-in-out;
+}
