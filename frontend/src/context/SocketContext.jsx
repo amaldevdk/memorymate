@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
   const audioAlarmRef = useRef(null);
 
   useEffect(() => {
-    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:5000' : window.location.origin);
     const newSocket = io(SOCKET_URL, {
       transports: ['websocket', 'polling']
     });
