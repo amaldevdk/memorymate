@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: image-registry.openshift-image-registry.svc:5000/memorymate/backend:latest
+          image: image-registry.openshift-image-registry.svc:5000/amaldevdk-dev/memorymate-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

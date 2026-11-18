@@ -75,7 +75,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 // Start HTTP server immediately and initiate DB connection
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
   console.log(`  MemoryMate API Server running on port ${PORT}`);
   console.log(`  Frontend URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);

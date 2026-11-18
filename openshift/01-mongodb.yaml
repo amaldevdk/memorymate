@@ -10,7 +10,7 @@ stringData:
   database-name: memorymate
   database-user: memorymate_user
   database-password: memorymate_secure_pass_2026
-  database-admin-password: memorymate_admin_pass_2026
+  database-root-password: memorymate_admin_pass_2026
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -24,7 +24,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -49,40 +49,41 @@ spec:
     spec:
       containers:
         - name: mongodb
-          image: registry.redhat.io/rhel9/mongodb-60:latest
+          image: bitnami/mongodb:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 27017
               name: mongodb
           env:
-            - name: MONGODB_USER
+            - name: MONGODB_EXTRA_USERNAMES
               valueFrom:
                 secretKeyRef:
                   name: mongodb-secret
                   key: database-user
-            - name: MONGODB_PASSWORD
+            - name: MONGODB_EXTRA_PASSWORDS
               valueFrom:
                 secretKeyRef:
                   name: mongodb-secret
                   key: database-password
-            - name: MONGODB_DATABASE
+            - name: MONGODB_EXTRA_DATABASES
               valueFrom:
                 secretKeyRef:
                   name: mongodb-secret
                   key: database-name
-            - name: MONGODB_ADMIN_PASSWORD
+            - name: MONGODB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongodb-secret
-                  key: database-admin-password
+                  key: database-root-password
           volumeMounts:
             - name: mongodb-data
-              mountPath: /var/lib/mongodb/data
+              mountPath: /bitnami/mongodb/data
           resources:
             requests:
-              memory: "256Mi"
+              memory: "128Mi"
               cpu: "100m"
             limits:
-              memory: "1Gi"
+              memory: "512Mi"
               cpu: "500m"
       volumes:
         - name: mongodb-data
